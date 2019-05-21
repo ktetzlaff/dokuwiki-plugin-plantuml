@@ -3,7 +3,7 @@ It allows to generate UML graph images from simple description text block.
 
 # Features
 * Create any UML graph supported by PlantUML.
-* Generated images are PNGs.
+* Generated images are SVGs.
 * Generated images are cached and regenerated when needed.
 * Toolbar button (optional)
 * Control the display witdh, height and alignment.

@@ -150,7 +150,7 @@ class syntax_plugin_plantuml extends DokuWiki_Syntax_Plugin {
      * Note this is also called by img.php
      */
     function _imgfile($data) {
-        $cache = $this->_cachename($data, 'png');
+        $cache = $this->_cachename($data, 'svg');
 
         // create the file if needed
         if (!file_exists($cache)) {
@@ -167,11 +167,7 @@ class syntax_plugin_plantuml extends DokuWiki_Syntax_Plugin {
             clearstatcache();
         }
 
-        if ($data['width'] && $data['percent'] != '%') {
-            $cache = media_resize_image($cache, 'png', $data['width'], $data['height']);
-        }
-
-        return file_exists($cache) ? $cache : false; 
+        return file_exists($cache) ? $cache : false;
     }
 
     /**
@@ -212,19 +208,21 @@ class syntax_plugin_plantuml extends DokuWiki_Syntax_Plugin {
             dbglog($in, 'No such plantuml input file');
             return false;
         }
-        
+
         $java = $this->getConf('java');
         $jar = $this->getConf('jar');
         $jar = realpath($jar);
         $jar = escapeshellarg($jar);
 
         // we are not specifying the output here, because plantuml will generate a file with the same
-        // name as the input but with .png extension, which is exactly what we want
+        // name as the input but with .svg extension, which is exactly what we want
         $command = $java;
         $command .= ' -Djava.awt.headless=true';
         $command .= ' -Dfile.encoding=UTF-8';
         $command .= " -jar $jar";
+        $command .= ' -splash:no';
         $command .= ' -charset UTF-8';
+        $command .= ' -tsvg';
         $command .= ' ' . escapeshellarg($in);
         $command .= ' 2>&1';
 
