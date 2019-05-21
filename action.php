@@ -27,7 +27,7 @@ class action_plugin_plantuml extends DokuWiki_Action_Plugin {
     /**
      * Inserts the toolbar button
      */
-    function insert_button(& $event, $param) {
+    function insert_button(Doku_Event & $event, $param) {
  		$event->data[] = array (
             'type' => 'format',
             'title' => htmlspecialchars($this->getLang('tooltip')),

@@ -7,10 +7,8 @@
  * @author  Willi Schönborn <w.schoenborn@googlemail.com>
  */
 
-if (!defined('DOKU_INC')) define('DOKU_INC', realpath(dirname(__FILE__) . '/../../') . '/');
-require_once(DOKU_INC . 'inc/init.php');
-if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
-require_once(DOKU_PLUGIN . 'syntax.php');
+// must be run within Dokuwiki
+if (!defined('DOKU_INC')) die();
 
 class syntax_plugin_plantuml extends DokuWiki_Syntax_Plugin {
 
@@ -239,7 +237,7 @@ class syntax_plugin_plantuml extends DokuWiki_Syntax_Plugin {
             return false;
         }
     }
-    
+
     /**
      * Dumps a message in a log file (named dokuwiki_plantuml.log and located in the Dokuwidi's cache directory)
      */
@@ -253,8 +251,7 @@ class syntax_plugin_plantuml extends DokuWiki_Syntax_Plugin {
     }
 
     function encodep($text) {
-        $data = utf8_encode($text);
-        $compressed = gzdeflate($data, 9);
+        $compressed = gzdeflate($text, 9);
         return $this->encode64($compressed);
     }
 
