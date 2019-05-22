@@ -4,9 +4,19 @@
  * @author  Willi Schönborn (w.schoenborn@googlemail.com)
  */
 
-if (!defined('DOKU_INC')) define('DOKU_INC', dirname(__FILE__) . '/../../../');
+// On debian the plugins are in a directory hierarchy
+// (/var/lib/dokuwiki/lib/plugins/...) separate from the dokuwiki install
+// (/usr/share/dokuwiki/...) and ../../../inc is a symlink. So avoid defining
+// DOKU_INC below and instead use a separate variable (MY_INC to include
+// the dokuwiki init.php in order to let the latter define DOKU_INC from the
+// correct directory hierarchy.
+if (defined('DOKU_INC')) {
+   define('MY_INC', DOKU_INC . 'inc');
+} else {
+   define('MY_INC', realpath(dirname(__FILE__) . '/../../../inc'));
+}
 define('NOSESSION', true);
-require_once(DOKU_INC . 'inc/init.php');
+require_once(MY_INC . '/init.php');
 
 $data = $_REQUEST;
 $plugin = plugin_load('syntax', 'plantuml');
